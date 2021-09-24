@@ -1,5 +1,13 @@
 from base import FtxClient
+from typing import Optional, Dict, Any, List
 
-artem = FtxClient(api_key="Sx9_99kNi2vGTK3FfQXG4CJKjQAjqbiPVXcKq4DA", api_secret="0Liu7a0NKWNXToq2KAiucYyjxgVZgb9l9HQVsw-N", subaccount_name=None)
+import time
+import hmac
+from requests import Request
 
-print(artem.list_futures())
+# artem = FtxClient(api_key="", api_secret="", subaccount_name="team_a")
+
+# caleb = FtxClient(api_key="", api_secret="", subaccount_name="team_c")
+# artem.get_allBalances()
+
+# print(artem.get_balances())

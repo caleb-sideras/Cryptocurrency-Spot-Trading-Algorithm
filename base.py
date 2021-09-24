@@ -149,6 +149,14 @@ class FtxClient:
     def get_balances(self) -> List[dict]:
         return self._get('wallet/balances')
 
+    def get_allBalances(self) -> List[dict]:
+        return self._get('wallet/all_balances')
+    #GET /wallet/all_balances
+
+    def get_subAccountBalances(self, subaccount) -> List[dict]:
+        return self._get('/subaccounts/{subaccount}/balances')
+    #GET /subaccounts/{nickname}/balances
+
     def get_deposit_address(self, ticker: str) -> dict:
         return self._get(f'wallet/deposit_address/{ticker}')
 
