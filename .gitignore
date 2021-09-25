@@ -1,3 +1,13 @@
-caleb.py
-artem.py
-.pyc
+*.log
+
+*.pot
+
+*.pyc
+
+*/*/*/__pycache__/
+
+*/*/__pycache__/
+
+*/__pycache__/
+
+.personal_details.py
