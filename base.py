@@ -9,6 +9,15 @@ from ciso8601 import parse_datetime
 class FtxClient:
     _ENDPOINT = 'https://ftx.com/api/'
 
+    SYMBOL_BTCUSD = "BTC/USD"
+    SYMBOL_LINKUSD = "LINK/USD"
+    SYMBOL_ADAUSD = "ADA/USD"
+    SYMBOL_ALGOUSD = "ALGO/USD"
+    SYMBOL_DOTUSD = "DOT/USD"
+    SYMBOL_ICPUSD = "ICP/USD"
+    SYMBOL_MATIC = "MATI/USD"
+    SYMBOL_ETH = "ETH/USD"
+
     def __init__(self, api_key=None, api_secret=None, subaccount_name=None) -> None:
         self._session = Session()
         self._api_key = api_key

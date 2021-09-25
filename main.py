@@ -1,21 +1,28 @@
 from base import FtxClient
 import ftxapi
 from Stagger import Stagger
-from PriceTickerRest import CurrentValue
-from Stagger import currentPriceStruct
+from PriceTickerRest import PriceTickerRest
+from Stagger import CurrentPriceStruct
 
-# FTXclient
-myObj = FtxClient(
+# Initialising Client
+Client = FtxClient(
     api_key=ftxapi.api_key, api_secret=ftxapi.api_secret, subaccount_name=ftxapi.subaccount_name)
 
-currentPriceObj = currentPriceStruct()
-staggerObj = Stagger(cryptoid="BTC/USD", client=myObj,
-                     pricestruct=currentPriceObj)
-priceTickerObj = CurrentValue(staggerObj, currentPriceObj)
+# Initialising Variables
+crypto_pair = Client.SYMBOL_BTCUSD
+crypto_amount = 0
+breakeven = 0
+
+
+instance_currentprice = CurrentPriceStruct()
+instance_stagger = Stagger(crypto_pair=Client.SYMBOL_BTCUSD, Client=Client,
+                           PriceStruct=instance_currentprice)
+instance_priceticker = PriceTickerRest(instance_stagger, instance_currentprice)
 
 while True:
     # locks the current variable
-    currentPriceObj.currentCond.acquire()
+    instance_currentprice.current_condition.acquire()
     # unlocks the current variable and waits for currentCond.notify()
-    currentPriceObj.currentCond.wait()
-    print("Price of BTC: ", currentPriceObj.current)
+    instance_currentprice.current_condition.wait()
+    print(f"Price of {Client.SYMBOL_BTCUSD}: ",
+          instance_currentprice.current_price)

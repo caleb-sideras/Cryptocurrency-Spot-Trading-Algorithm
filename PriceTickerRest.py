@@ -4,11 +4,13 @@ import ftxapi
 from base import FtxClient
 
 # Explainerman for artem grislis!!!
-class CurrentValue(object):
 
-    def __init__(self, stagger=None, pricestruct=None, interval=2, ):
-        self.Stagger = stagger  # Stagger Object passed in
-        self.priceStruct = pricestruct  # Price Struct Object passed in
+
+class PriceTickerRest(object):
+
+    def __init__(self, Stagger=None, PriceStruct=None, interval=2, ):
+        self.Stagger = Stagger  # Stagger Object passed in
+        self.PriceStruct = PriceStruct  # Price Struct Object passed in
         self.interval = interval  # time interval
 
         # creates two threads and allocates a function to each thread
@@ -24,13 +26,13 @@ class CurrentValue(object):
         while True:
             try:
 
-                temp = self.Stagger.client.list_single_markets(
-                    self.Stagger.cryptoID)  # updated price
-                self.priceStruct.currentCond.acquire()  # locking the current variable
+                temp = self.Stagger.Client.list_single_markets(
+                    self.Stagger.crypto_pair)  # updated price
+                self.PriceStruct.current_condition.acquire()  # locking the current variable
                 # setting current variable in Price Struct to updated price
-                self.priceStruct.current = float(temp['ask'])
-                self.priceStruct.currentCond.notify()  # notifying other conditions
-                self.priceStruct.currentCond.release()  # releasing the current variable
+                self.PriceStruct.current_price = float(temp['ask'])
+                self.PriceStruct.current_condition.notify()  # notifying other conditions
+                self.PriceStruct.current_condition.release()  # releasing the current variable
 
             except Exception as e:
                 print(e, "getting crypto price")
@@ -41,8 +43,8 @@ class CurrentValue(object):
     def run2(self):
         while True:
             try:
-                newclient = FtxClient(ftxapi.py.key, ftxapi.py.secret)
-                self.Stagger.client = newclient
+                New_Client = FtxClient(ftxapi.api_key, ftxapi.api_secret)
+                self.Stagger.Client = New_Client
 
             except Exception as e:
                 print(e, "refreshing client")
