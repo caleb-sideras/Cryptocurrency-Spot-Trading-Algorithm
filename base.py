@@ -6,6 +6,7 @@ from requests import Request, Session, Response
 import hmac
 from ciso8601 import parse_datetime
 
+
 class FtxClient:
     _ENDPOINT = 'https://ftx.com/api/'
 
@@ -33,15 +34,18 @@ class FtxClient:
     def _sign_request(self, request: Request) -> None:
         ts = int(time.time() * 1000)
         prepared = request.prepare()
-        signature_payload = f'{ts}{prepared.method}{prepared.path_url}'.encode()
+        signature_payload = f'{ts}{prepared.method}{prepared.path_url}'.encode(
+        )
         if prepared.body:
             signature_payload += prepared.body
-        signature = hmac.new(self._api_secret.encode(), signature_payload, 'sha256').hexdigest()
+        signature = hmac.new(self._api_secret.encode(),
+                             signature_payload, 'sha256').hexdigest()
         request.headers['FTX-KEY'] = self._api_key
         request.headers['FTX-SIGN'] = signature
         request.headers['FTX-TS'] = str(ts)
         if self._subaccount_name:
-            request.headers['FTX-SUBACCOUNT'] = urllib.parse.quote(self._subaccount_name)
+            request.headers['FTX-SUBACCOUNT'] = urllib.parse.quote(
+                self._subaccount_name)
 
     def _process_response(self, response: Response) -> Any:
         try:
@@ -60,6 +64,9 @@ class FtxClient:
     def list_markets(self) -> List[dict]:
         return self._get('markets')
 
+    def list_single_markets(self, market_name: str) -> List[dict]:
+        return self._get(f'markets/{market_name}')
+
     def get_orderbook(self, market: str, depth: int = None) -> dict:
         return self._get(f'markets/{market}/orderbook', {'depth': depth})
 
@@ -71,10 +78,10 @@ class FtxClient:
 
     def get_open_orders(self, market: str = None) -> List[dict]:
         return self._get(f'orders', {'market': market})
-    
+
     def get_order_history(self, market: str = None, side: str = None, order_type: str = None, start_time: float = None, end_time: float = None) -> List[dict]:
         return self._get(f'orders/history', {'market': market, 'side': side, 'orderType': order_type, 'start_time': start_time, 'end_time': end_time})
-        
+
     def get_conditional_order_history(self, market: str = None, side: str = None, type: str = None, order_type: str = None, start_time: float = None, end_time: float = None) -> List[dict]:
         return self._get(f'conditional_orders/history', {'market': market, 'side': side, 'type': type, 'orderType': order_type, 'start_time': start_time, 'end_time': end_time})
 
@@ -85,7 +92,8 @@ class FtxClient:
     ) -> dict:
         assert (existing_order_id is None) ^ (existing_client_order_id is None), \
             'Must supply exactly one ID for the order to modify'
-        assert (price is None) or (size is None), 'Must modify price or size of order'
+        assert (price is None) or (
+            size is None), 'Must modify price or size of order'
         path = f'orders/{existing_order_id}/modify' if existing_order_id is not None else \
             f'orders/by_client_id/{existing_client_order_id}/modify'
         return self._post(path, {
@@ -181,7 +189,8 @@ class FtxClient:
             print(f'Adding {len(response)} trades with end time {end_time}')
             if len(response) == 0:
                 break
-            end_time = min(parse_datetime(t['time']) for t in response).timestamp()
+            end_time = min(parse_datetime(t['time'])
+                           for t in response).timestamp()
             if len(response) < limit:
                 break
         return results
