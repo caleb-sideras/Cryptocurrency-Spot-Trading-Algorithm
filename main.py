@@ -15,7 +15,7 @@ breakeven = 0
 
 
 instance_currentprice = CurrentPriceStruct()
-instance_stagger = Stagger(crypto_pair=Client.SYMBOL_BTCUSD, Client=Client,
+instance_stagger = Stagger(crypto_pair=crypto_pair, Client=Client,
                            PriceStruct=instance_currentprice)
 instance_priceticker = PriceTickerRest(instance_stagger, instance_currentprice)
 
@@ -24,5 +24,5 @@ while True:
     instance_currentprice.current_condition.acquire()
     # unlocks the current variable and waits for currentCond.notify()
     instance_currentprice.current_condition.wait()
-    print(f"Price of {Client.SYMBOL_BTCUSD}: ",
+    print(f"Price of {crypto_pair}: ",
           instance_currentprice.current_price)

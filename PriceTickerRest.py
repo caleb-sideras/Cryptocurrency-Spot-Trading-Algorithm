@@ -23,16 +23,23 @@ class PriceTickerRest(object):
 
     # This thread gets the price of a cryptoID every interval
     def run(self):
+        temp_price = 0
         while True:
             try:
 
                 temp = self.Stagger.Client.list_single_markets(
                     self.Stagger.crypto_pair)  # updated price
-                self.PriceStruct.current_condition.acquire()  # locking the current variable
+
                 # setting current variable in Price Struct to updated price
-                self.PriceStruct.current_price = float(temp['ask'])
-                self.PriceStruct.current_condition.notify()  # notifying other conditions
-                self.PriceStruct.current_condition.release()  # releasing the current variable
+                if(temp_price != float(temp['ask'])):
+                    temp_price = float(temp['ask'])
+                    # locking the current variable
+                    self.PriceStruct.current_condition.acquire()
+                    self.PriceStruct.current_price = float(temp['ask'])
+                    # notifying other conditions
+                    self.PriceStruct.current_condition.notify()
+                    # releasing the current variable
+                    self.PriceStruct.current_condition.release()
 
             except Exception as e:
                 print(e, "getting crypto price")
