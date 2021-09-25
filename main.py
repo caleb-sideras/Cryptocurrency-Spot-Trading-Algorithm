@@ -1,20 +1,17 @@
 from base import FtxClient
 from typing import Optional, Dict, Any, List
-import caleb
+import personal_details
 from Stagger import Stagger
 from PriceTickerRest import CurrentValue
 from Stagger import currentPriceStruct
 from requests import Request
 
 # FTXclient
-calebObj = FtxClient(
-    api_key=caleb.key, api_secret=caleb.secret, subaccount_name="team_c")
+myObj = FtxClient(
+    api_key=personal_details.api_key, api_secret=personal_details.api_secret, subaccount_name=personal_details.subaccount_name)
 
 currentPriceObj = currentPriceStruct()
-
-staggerObj = Stagger(cryptoid="BTC/USD", client=calebObj,
-                     pricestruct=currentPriceObj)
-
+staggerObj = Stagger(cryptoid="BTC/USD", client=myObj, pricestruct=currentPriceObj)
 priceTickerObj = CurrentValue(staggerObj, currentPriceObj)
 
 while True:

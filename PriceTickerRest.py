@@ -1,11 +1,9 @@
 import time
 import threading
-import caleb
+import personal_details
 from base import FtxClient
 
 # Explainerman for artem grislis!!!
-
-
 class CurrentValue(object):
 
     def __init__(self, stagger=None, pricestruct=None, interval=2, ):
@@ -43,7 +41,7 @@ class CurrentValue(object):
     def run2(self):
         while True:
             try:
-                newclient = FtxClient(caleb.key, caleb.secret)
+                newclient = FtxClient(personal_details.key, personal_details.secret)
                 self.Stagger.client = newclient
 
             except Exception as e:
