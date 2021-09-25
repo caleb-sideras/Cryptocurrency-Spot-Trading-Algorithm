@@ -11,7 +11,8 @@ myObj = FtxClient(
     api_key=personal_details.api_key, api_secret=personal_details.api_secret, subaccount_name=personal_details.subaccount_name)
 
 currentPriceObj = currentPriceStruct()
-staggerObj = Stagger(cryptoid="BTC/USD", client=myObj, pricestruct=currentPriceObj)
+staggerObj = Stagger(cryptoid="BTC/USD", client=myObj,
+                     pricestruct=currentPriceObj)
 priceTickerObj = CurrentValue(staggerObj, currentPriceObj)
 
 while True:
