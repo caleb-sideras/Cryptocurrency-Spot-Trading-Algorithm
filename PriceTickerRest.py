@@ -1,6 +1,6 @@
 import time
 import threading
-import personal_details
+import ftxapi
 from base import FtxClient
 
 # Explainerman for artem grislis!!!
@@ -41,7 +41,7 @@ class CurrentValue(object):
     def run2(self):
         while True:
             try:
-                newclient = FtxClient(personal_details.key, personal_details.secret)
+                newclient = FtxClient(ftxapi.py.key, ftxapi.py.secret)
                 self.Stagger.client = newclient
 
             except Exception as e:
