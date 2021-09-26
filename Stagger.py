@@ -64,12 +64,12 @@ class Stagger:
             self.update_price()
             if self.current_price > self.high_price:  # checks if there is a new high_price within sell cycle
                 self.high_price = self.current_price
-                print(self.margin,
-                      '\n1', self.crypto_pair, 'highest:', self.high_price, 'breakeven:', self.breakeven)
+                print('1', self.crypto_pair, 'highest:',
+                      self.high_price, 'breakeven:', self.breakeven)
 
             elif self.current_price < self.breakeven:  # checks if current_price < breakeven
-                print(self.margin,
-                      '\ncurrent < breakeven, returning to sell_check()')
+                print(self.current_price,
+                      'current < breakeven, returning to sell_check()')
                 break
 
             elif self.current_price <= (1 - self.margin) * self.high_price:
@@ -102,12 +102,12 @@ class Stagger:
             self.update_price()
             if self.current_price < self.low_price:  # checks if there is a new low_price within buy cycle
                 self.low_price = self.current_price
-                print(self.margin,
-                      '\n1', self.crypto_pair, 'lowest:', self.low_price, 'breakeven:', self.breakeven)
+                print('1', self.crypto_pair, 'lowest:',
+                      self.low_price, 'breakeven:', self.breakeven)
 
             elif self.current_price > self.breakeven:  # checks if current_price > breakeven
-                print(self.margin,
-                      '\ncurrent < breakeven, returning to sell_check()')
+                print(self.current_price,
+                      'current < breakeven, returning to sell_check()')
                 break
 
             elif self.current_price >= (1 + self.margin) * self.low_price:
