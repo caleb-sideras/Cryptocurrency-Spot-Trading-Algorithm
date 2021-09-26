@@ -32,7 +32,7 @@ class Stagger:
     def price_init(self):
         self.update_price()
         self.breakeven = self.current_price * (1 + self.taker_fee)
-        print(f"{self.crypto_pair} price init")
+        print(f"{self.crypto_pair, self.breakeven}  price init")
 
     # updates current_price
     def update_price(self):
