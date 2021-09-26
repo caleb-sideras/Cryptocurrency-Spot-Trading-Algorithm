@@ -16,6 +16,7 @@ class Stagger:
     current_price = 0
     high_price = 0
     low_price = 2147483647
+    cycle = True
 
     def __init__(self, breakeven=None, margin=None, crypto_amount=None, crypto_pair=None, timestr=None, Client=None, PriceStruct=None, taker_fee=None):
         self.breakeven = breakeven
@@ -128,7 +129,6 @@ class Stagger:
 
                 self.breakeven = buy_price * (1 + self.taker_fee)
                 self.crypto_amount = buy_amount
-                # self.buycorrection(sell_price)
                 self.low_price = 2147483647
                 self.cycle = True
         return

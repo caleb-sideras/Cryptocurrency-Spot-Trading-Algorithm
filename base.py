@@ -17,6 +17,7 @@ class FtxClient:
     SYMBOL_ICPUSD = "ICP/USD"
     SYMBOL_MATIC = "MATI/USD"
     SYMBOL_ETH = "ETH/USD"
+    SYMBOL_FTT = "FTT/USD"
 
     def __init__(self, api_key=None, api_secret=None, subaccount_name=None) -> None:
         self._session = Session()

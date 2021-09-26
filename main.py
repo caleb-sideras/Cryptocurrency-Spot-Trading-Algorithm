@@ -10,14 +10,14 @@ Client = FtxClient(
 
 # Initialising Variables
 taker_fee = Client.get_account_info()['takerFee']
-crypto_pair = Client.SYMBOL_BTCUSD
-crypto_amount = 0
-breakeven = 0
+crypto_pair = Client.SYMBOL_FTT
+crypto_amount = 0.1
+# breakeven = 0
 
 
 instance_currentprice = CurrentPriceStruct()
 instance_stagger = Stagger(crypto_pair=crypto_pair, Client=Client,
-                           PriceStruct=instance_currentprice, taker_fee=taker_fee)
+                           PriceStruct=instance_currentprice, taker_fee=taker_fee, margin=0.05)
 instance_priceticker = PriceTickerRest(instance_stagger, instance_currentprice)
 instance_stagger.price_init()
 while True:
