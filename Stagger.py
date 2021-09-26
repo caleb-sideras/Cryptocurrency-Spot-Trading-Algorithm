@@ -32,6 +32,7 @@ class Stagger:
     def price_init(self):
         self.update_price()
         self.breakeven = self.current_price * (1 + self.taker_fee)
+        print(f"{self.crypto_pair} price init")
 
     # updates current_price
     def update_price(self):
@@ -47,6 +48,7 @@ class Stagger:
             self.update_price()
             if self.current_price > self.breakeven:
                 self.sell_cycle()
+            print(f"{self.crypto_pair} sell_check")
         return
 
      # buy cycle - checks if current_price < breakeven
@@ -55,6 +57,7 @@ class Stagger:
             self.update_price()
             if self.current_price < self.breakeven:
                 self.buy_cycle()
+            print(f"{self.crypto_pair} buy_check")
 
     def sell_cycle(self):
         while self.cycle:

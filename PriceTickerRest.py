@@ -52,6 +52,7 @@ class PriceTickerRest(object):
             try:
                 New_Client = FtxClient(ftxapi.api_key, ftxapi.api_secret)
                 self.Stagger.Client = New_Client
+                print(f"{self.Stagger.crypto_pair} refreshing client")
 
             except Exception as e:
                 print(e, "refreshing client")
