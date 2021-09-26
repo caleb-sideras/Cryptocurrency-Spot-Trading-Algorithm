@@ -162,6 +162,9 @@ class FtxClient:
     def get_fills(self) -> List[dict]:
         return self._get(f'fills')
 
+    def get_fills_id(self, market) -> List[dict]:
+        return self._get(f'fills?market={market}')
+
     def get_balances(self) -> List[dict]:
         return self._get('wallet/balances')
 
