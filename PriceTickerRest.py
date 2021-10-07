@@ -15,11 +15,11 @@ class PriceTickerRest(object):
 
         # creates two threads and allocates a function to each thread
         thread = threading.Thread(target=self.run, args=())
-        thread2 = threading.Thread(target=self.run2, args=())
+        # thread2 = threading.Thread(target=self.run2, args=())
         thread.daemon = True
-        thread2.daemon = True
+        # thread2.daemon = True
         thread.start()
-        thread2.start()
+        # thread2.start()
 
     # This thread gets the price of a cryptoID every interval
     def run(self):
@@ -50,7 +50,8 @@ class PriceTickerRest(object):
     def run2(self):
         while True:
             try:
-                New_Client = FtxClient(ftxapi.api_key, ftxapi.api_secret)
+                New_Client = FtxClient(
+                    api_key=ftxapi.api_key, api_secret=ftxapi.api_secret, subaccount_name=ftxapi.subaccount_name)
                 self.Stagger.Client = New_Client
                 print(f"{self.Stagger.crypto_pair} refreshing client")
 
