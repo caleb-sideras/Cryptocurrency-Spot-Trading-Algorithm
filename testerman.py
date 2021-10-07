@@ -1,12 +1,16 @@
 from base import FtxClient
 import ftxapi
 import json
+import time
 
 Client = FtxClient(
     api_key=ftxapi.api_key, api_secret=ftxapi.api_secret, subaccount_name=ftxapi.subaccount_name)
 
-# print(Client.place_order(market="FTT/USD", side="sell",
-#                          type="market", size=0.1, price=None))
+# print(Client.place_order(market="FTT/USD", side="buy",
+#                          type="market", size=0.9965140845070423, price=None))
+# sell_response = self.Client.place_order(market=self.crypto_pair, side="sell",
+#                                         type="market", size=self.crypto_amount, price=None)
+# time.sleep(5)
 # print(Client.get_fills_id("FTT/USD"))
 
 # print(Client.place_order(market="FTT/USD", side="buy",

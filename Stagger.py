@@ -1,4 +1,4 @@
-from datetime import time
+import time
 import threading
 from base import FtxClient
 
@@ -31,7 +31,7 @@ class Stagger:
     # initialises breakeven and current_price
     def price_init(self):
         self.update_price()
-        # self.breakeven = self.current_price * (1 + self.taker_fee)
+        self.breakeven = self.current_price * (1 + self.taker_fee)
         print(f"{self.crypto_pair, self.breakeven}  price init")
 
     # updates current_price
@@ -76,6 +76,8 @@ class Stagger:
                 # checks if current_price <= 1 - margin% from high_price within sell cycle
 
                 trigger_sell = self.current_price
+                print(self.crypto_pair, self.crypto_amount,
+                      self.current_price, self.high_price, self.breakeven)
                 sell_response = self.Client.place_order(market=self.crypto_pair, side="sell",
                                                         type="market", size=self.crypto_amount, price=None)
                 time.sleep(5)
@@ -90,8 +92,7 @@ class Stagger:
                       '\n', sell_amount, self.crypto_pair, '=', sell_total,
                       '\n', sell_fee, 'USD fee,', 'Trigger sell:', trigger_sell)
 
-                self.crypto_amount = sell_amount
-                # self.buycorrection(sell_price)
+                self.crypto_amount = sell_total  # sell_amount
                 self.high_price = 0
                 self.breakeven = sell_price * (1 - (self.taker_fee * 2))
                 self.cycle = False
@@ -107,14 +108,18 @@ class Stagger:
 
             elif self.current_price > self.breakeven:  # checks if current_price > breakeven
                 print(self.current_price,
-                      'current < breakeven, returning to sell_check()')
+                      'current < breakeven, returning to buy_check()')
                 break
 
             elif self.current_price >= (1 + self.margin) * self.low_price:
 
                 # checks if current_price >= 1 + margin% from high_price within buy cycle
                 trigger_buy = self.current_price
-                self.crypto_amount = self.current_price / self.breakeven
+                # eg if sold before 0.1 FTT for 5.637860950425001 USD at 56.423 FTT/USD, would be 5.637860950425001 / 56.3 (current FTT/USD) for 0.10013962611767319715808170515098.
+                self.crypto_amount = self.crypto_amount / self.current_price
+
+                print(self.crypto_pair, self.crypto_amount,
+                      self.current_price, self.low_price, self.breakeven)
 
                 sell_response = self.Client.place_order(market=self.crypto_pair, side="buy",
                                                         type="market", size=self.crypto_amount, price=None)
