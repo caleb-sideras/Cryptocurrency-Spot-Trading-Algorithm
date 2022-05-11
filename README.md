@@ -37,7 +37,7 @@
 </ul>
 
 
-<h3>Example Initlization</h3>
+<h3>Example Initialization</h3>
 <pre>
 from base import FtxClient
 import ftxapi
